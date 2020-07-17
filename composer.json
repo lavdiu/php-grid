@@ -1,0 +1,25 @@
+{
+    "name": "lavdiu/php-grid",
+    "description": "PHP Grid - Easily create flexible grids in PHP",
+    "type": "library",
+    "require": {
+        "box/spout": "^3.1",
+        "phpoffice/phpspreadsheet": "^1.14",
+        "php": ">=7.2",
+        "ext-json": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.2"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "lul@orav.net",
+            "email": "lul@orav.net"
+        }
+    ],
+    "autoload": {
+        "psr-4": {"PhpGrid\\": "src/PhpGrid"}
+    },
+    "minimum-stability": "stable"
+}
