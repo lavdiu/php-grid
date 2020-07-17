@@ -320,6 +320,7 @@ class Grid {
 
             var btnGroup = document.createElement('div');
             btnGroup.classList.add('btn-group');
+            btnGroup.classList.add('d-print-none');
 
             var mainBtn = document.createElement('a');
             mainBtn.setAttribute('gridName', this.name);
@@ -332,7 +333,7 @@ class Grid {
             }
 
             var dropdownToggleButton = document.createElement('button');
-            dropdownToggleButton.className = "btn btn-sm btn-outline-secondary dropdown-toggle dropdown-toggle-split d-print-none";
+            dropdownToggleButton.className = "btn btn-sm btn-outline-secondary dropdown-toggle dropdown-toggle-split";
             dropdownToggleButton.setAttribute('data-toggle', 'dropdown');
             dropdownToggleButton.setAttribute('aria-haspopup', 'true');
             dropdownToggleButton.setAttribute('aria-expande', 'false');
