@@ -13,7 +13,7 @@ This class relies on the following libaries:
 It also requires [JQuery](https://jquery.com/) and [Bootstrap](https://getbootstrap.com/).
 ##Installation
 To install this library use `composer require lavdiu/php-grid`  
-Copy `grid.js` from `assets/` folder to your assets folder or root of your web directory
+Copy `grid.js` from `assets/` folder to your assets folder or root of your web directory and include it in your page.  
 
 ##Usage
 ```php
