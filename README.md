@@ -37,13 +37,13 @@ $grid->setTitle('First Grid')
     ->addActionButton(new ActionButton('Delete', '?mod=person&id={id}&action=delete', 'fa fa-trash'));
 
 $col1 = new Column('name', 'Full Name');
-$col1->setCellCssClass('text-center');
-$col1->setCellCssStyle('background-color:silver');
+$col1->setCellCssClass('text-center'); #set css class of the Table Td element
+$col1->setCellCssStyle('background-color:silver'); #set css style of the Table TD element
 $grid->addColumn($col1);
 
 $col2 = new Column('created_on', 'Registration Date', true);
-$col2->setCellContentCssClass('border border-danger');
-$col2->setCellContentCssStyle('color:red');
+$col2->setCellContentCssClass('border border-danger'); #set css style of the element inside table td
+$col2->setCellContentCssStyle('color:red'); #set css style of the element inside table td
 $grid->addColumn($col2);
 
 if ($grid->isReadyToHandleRequests()) {
