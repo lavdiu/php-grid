@@ -1,8 +1,8 @@
 # PhpGrid
 PHP Grid - simple php class that allows building dynamic grids using PHP and JS
 
-#Getting Started
-##Prerequisites
+## Getting Started
+### Prerequisites
 This class relies on the following libaries:
  * `box/spout` to generate Excel exports on the server side 
  * `phpoffice/phpspreadsheet` to generate Excel exports on the server side
@@ -11,11 +11,12 @@ This class relies on the following libaries:
  * `ext-json` to encode/decode JSON requests 
  
 It also requires [JQuery](https://jquery.com/) and [Bootstrap](https://getbootstrap.com/).
-##Installation
+
+### Installation
 To install this library use `composer require lavdiu/php-grid`  
 Copy `grid.js` from `assets/` folder to your assets folder or root of your web directory and include it in your page.  
 
-##Usage
+### Usage
 ```php
 require_once __DIR__ . '/vendor/autoload.php';
 
