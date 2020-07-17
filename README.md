@@ -44,3 +44,5 @@ if ($grid->isReadyToHandleRequests()) {
 
 echo $grid->draw();
 ```
+
+See [examples/ directory](https://github.com/lavdiu/php-grid/tree/master/examples) for more examples
