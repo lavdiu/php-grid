@@ -31,12 +31,12 @@ $pdo = new PDO('mysql:host=localhost;dbname=database', 'username', 'password');
 $grid = new PhpGrid($pdo, 'test_grid');
 $grid->setTitle('First Grid')
     ->setRowsPerPage(10)
-    ->setSqlQuery("SELECT id, name, email, created_on FROM person")
-    ->addColumn(new Column('id', 'Person Id', true, true, '?mod=person&id={id}', '_blank'))
+    ->setSqlQuery("SELECT id, name, email, created_on FROM contacts")
+    ->addColumn(new Column('id', 'Contact Id', true, true, '?mod=contact&id={id}', '_blank'))
     ->addColumn(new Column('email', 'Email Address'))
-    ->addActionButton(new ActionButton('View', '?mod=person&id={id}', 'fa fa-eye'))
-    ->addActionButton(new ActionButton('Update', '?mod=person&id={id}&action=update', 'fa fa-pencil'))
-    ->addActionButton(new ActionButton('Delete', '?mod=person&id={id}&action=delete', 'fa fa-trash'));
+    ->addActionButton(new ActionButton('View', '?mod=contact&id={id}', 'fa fa-eye'))
+    ->addActionButton(new ActionButton('Update', '?mod=contact&id={id}&action=update', 'fa fa-pencil'))
+    ->addActionButton(new ActionButton('Delete', '?mod=contact&id={id}&action=delete', 'fa fa-trash'));
 
 $col1 = new Column('name', 'Full Name');
 $col1->setCellCssClass('text-center'); #set css class of the Table Td element
