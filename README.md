@@ -11,7 +11,11 @@ This class relies on the following libaries:
  * [Bootstrap 4](https://getbootstrap.com/)
 
 ### Installation
-To install this library use `composer require lavdiu/php-grid`  
+To install this library use 
+```bash
+composer require lavdiu/php-grid
+```  
+
 Copy `grid.js` from `assets/` folder to your assets folder or root of your web directory and include it in your page.  
 
 ### Usage
