@@ -1,11 +1,10 @@
 <?php
 
-
 namespace PhpGrid;
 
 /**
  * Class ActionButton
- * @package Lavdiu\PhpGrid
+ * @package PhpGrid
  */
 class ActionButton
 {

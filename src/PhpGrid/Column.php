@@ -4,7 +4,7 @@ namespace PhpGrid;
 
 /**
  * Class Column
- * @package Lavdiu\PhpGrid
+ * @package PhpGrid
  */
 class Column
 {

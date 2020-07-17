@@ -13,13 +13,11 @@ use PhpOffice\PhpSpreadsheet\Shared\Font;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Exception;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-use PhpGrid\Column;
-use PhpGrid\ActionButton;
 
 
 /**
  * Class PhpGrid
- * @package Lavdiu\PhpGrid
+ * @package PhpGrid
  */
 class PhpGrid
 {
@@ -403,7 +401,7 @@ class PhpGrid
 
     /**
      * @param string $fieldName
-     * @return \Lavdiu\PhpGrid\Column
+     * @return Column
      */
     public function getColumn(string $fieldName): ?Column
     {
