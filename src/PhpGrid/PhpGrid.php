@@ -994,7 +994,7 @@ class PhpGrid
 				</span>
 				&nbsp;&nbsp;
 				<nav aria-label='Navigation'>
-					<ul class='pagination pagination-sm'>
+					<ul class='pagination pagination-sm d-print-none'>
 						<li class='page-item'><a id='{$gridName}_paginationFirstPage' href='javascript:;' class='page-link' title='First Page'><i class='fa fa-angle-double-left'></i></a></li>
 						<li class='page-item'><a id='{$gridName}_paginationPrevPage' href='javascript:;' class='page-link' title='Previous Page'><i class='fa fa-angle-left'></i></a></li>
 						<li class='page-item'><a id='{$gridName}_paginationCurrPage' href='javascript:;' class='page-link' title='Current Page'>1</a></li>

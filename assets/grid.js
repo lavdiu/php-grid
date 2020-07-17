@@ -230,7 +230,7 @@ class Grid {
             columnTitle.classList.add('float-left');
 
             var columnSortButton = document.createElement('a');
-            columnSortButton.className = 'float-right btn btn-sm btn-outline-secondary';
+            columnSortButton.className = 'float-right btn btn-sm btn-outline-secondary d-print-none';
             columnSortButton.href = 'javascript:;';
             columnSortButton.setAttribute('fieldName', column.fieldName);
             columnSortButton.setAttribute('gridName', this.name);
@@ -332,7 +332,7 @@ class Grid {
             }
 
             var dropdownToggleButton = document.createElement('button');
-            dropdownToggleButton.className = "btn btn-sm btn-outline-secondary dropdown-toggle dropdown-toggle-split";
+            dropdownToggleButton.className = "btn btn-sm btn-outline-secondary dropdown-toggle dropdown-toggle-split d-print-none";
             dropdownToggleButton.setAttribute('data-toggle', 'dropdown');
             dropdownToggleButton.setAttribute('aria-haspopup', 'true');
             dropdownToggleButton.setAttribute('aria-expande', 'false');

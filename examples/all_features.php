@@ -22,19 +22,19 @@
 <body>
 <div class="container">
 <?php
-include './vendor/autoload.php';
+require_once __DIR__ . '/vendor/autoload.php';
 
-use PhpGrid\ActionButton;
-use PhpGrid\Column;
 use PhpGrid\PhpGrid;
+use PhpGrid\Column;
+use PhpGrid\ActionButton;
 
 $pdo = new PDO('mysql:host=localhost;dbname=database', 'username', 'password');
 
 $grid = new PhpGrid($pdo, 'test_grid');
 $grid->setTitle('First Grid')
-    ->setRowsPerPage(12)
+    ->setRowsPerPage(10)
     ->setSqlQuery("SELECT id, name, email, created_on FROM person")
-    ->addColumn(new Column('id', 'Person Id', true, true,  '?mod=person&id={id}', '_blank'))
+    ->addColumn(new Column('id', 'Person Id', true, true, '?mod=person&id={id}', '_blank'))
     ->addColumn(new Column('name', 'Full Name'))
     ->addColumn(new Column('email', 'Email Address'))
     ->addColumn(new Column('created_on', 'Registration Date', false))
