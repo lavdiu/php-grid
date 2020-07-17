@@ -54,13 +54,6 @@ class Column
         $this->outerElementAttributes = $outerElementAttributes;
     }
 
-    public function setPropertyValue(string $property, string $value)
-    {
-        if (property_exists(self::class, $property)) {
-            $this->$property = $value;
-        }
-    }
-
     /**
      * @return int
      */
