@@ -468,7 +468,6 @@ class Grid {
                 td.style = column.outerElementCssStyle;
                 td.className = column.outerElementCssClass;
 
-
                 tr.appendChild(td);
             }
 
@@ -962,13 +961,13 @@ class Column {
         this._label = this._data.label;
         this._format = this._data.format;
         this._href = this._data.href;
-        this._innerElementCssStyle = this._data.innerElementCssStyle;
-        this._innerElementCssClass = this._data.innerElementCssClass;
-        this._outerElementCssStyle = this._data.outerElementCssStyle;
-        this._outerElementCssClass = this._data.outerElementCssClass;
+        this._innerElementCssStyle = this._data.cellContentCssStyle;
+        this._innerElementCssClass = this._data.cellContentCssClass;
+        this._outerElementCssStyle = this._data.cellCssStyle;
+        this._outerElementCssClass = this._data.cellCssClass;
         this._visible = this._data.visible;
-        this._innerElementAttributes = this._data.innerElementAttributes;
-        this._outerElementAttributes = this._data.outerElementAttributes;
+        this._innerElementAttributes = this._data.cellContentAttributes;
+        this._outerElementAttributes = this._data.cellAttributes;
         this._target = this._data.target;
     }
 

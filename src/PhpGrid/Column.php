@@ -14,14 +14,14 @@ class Column
     public $format = "";
     public $href = "";
     public $target = "";
-    public $innerElementCssStyle = "";
-    public $innerElementCssClass = "";
-    public $outerElementCssStyle = "";
-    public $outerElementCssClass = "";
+    public $cellContentCssStyle = "";
+    public $cellContentCssClass = "";
+    public $cellCssStyle = "";
+    public $cellCssClass = "";
     public $visible = true;
     public $exportable = true;
-    public $innerElementAttributes = "";
-    public $outerElementAttributes = "";
+    public $cellContentAttributes = "";
+    public $cellAttributes = "";
 
     /**
      * Column constructor.
@@ -31,27 +31,27 @@ class Column
      * @param bool $exportable
      * @param string $href
      * @param string $target
-     * @param string $innerElementCssStyle
-     * @param string $innerElementCssClass
-     * @param string $outerElementCssStyle
-     * @param string $outerElementCssClass
-     * @param string $innerElementAttributes
-     * @param string $outerElementAttributes
+     * @param string $cellContentCssStyle
+     * @param string $cellContentCssClass
+     * @param string $cellCssStyle
+     * @param string $cellCssClass
+     * @param string $cellContentAttributes
+     * @param string $cellAttributes
      */
-    public function __construct(?string $fieldName = null, ?string $label = null, bool $visible = true, bool $exportable = true, ?string $href = null, ?string $target = null, ?string $innerElementCssStyle = null, ?string $innerElementCssClass = null, ?string $outerElementCssStyle = null, ?string $outerElementCssClass = null, string $innerElementAttributes = null, string $outerElementAttributes = null)
+    public function __construct(?string $fieldName = null, ?string $label = null, bool $visible = true, bool $exportable = true, ?string $href = null, ?string $target = null, ?string $cellContentCssStyle = null, ?string $cellContentCssClass = null, ?string $cellCssStyle = null, ?string $cellCssClass = null, string $cellContentAttributes = null, string $cellAttributes = null)
     {
         $this->fieldName = $fieldName;
         $this->label = $label;
         $this->href = $href;
         $this->target = $target;
-        $this->innerElementCssStyle = $innerElementCssStyle;
-        $this->innerElementCssClass = $innerElementCssClass;
-        $this->outerElementCssStyle = $outerElementCssStyle;
-        $this->outerElementCssClass = $outerElementCssClass;
+        $this->cellContentCssStyle = $cellContentCssStyle;
+        $this->cellContentCssClass = $cellContentCssClass;
+        $this->cellCssStyle = $cellCssStyle;
+        $this->cellCssClass = $cellCssClass;
         $this->visible = $visible;
         $this->exportable = $exportable;
-        $this->innerElementAttributes = $innerElementAttributes;
-        $this->outerElementAttributes = $outerElementAttributes;
+        $this->cellContentAttributes = $cellContentAttributes;
+        $this->cellAttributes = $cellAttributes;
     }
 
     /**
@@ -148,36 +148,36 @@ class Column
     /**
      * @return string
      */
-    public function getInnerElementCssStyle(): string
+    public function getCellContentCssStyle(): string
     {
-        return $this->innerElementCssStyle;
+        return $this->cellContentCssStyle;
     }
 
     /**
-     * @param string $innerElementCssStyle
+     * @param string $cellContentCssStyle
      * @return Column
      */
-    public function setInnerElementCssStyle(string $innerElementCssStyle): Column
+    public function setCellContentCssStyle(string $cellContentCssStyle): Column
     {
-        $this->innerElementCssStyle = $innerElementCssStyle;
+        $this->cellContentCssStyle = $cellContentCssStyle;
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getInnerElementCssClass(): string
+    public function getCellContentCssClass(): string
     {
-        return $this->innerElementCssClass;
+        return $this->cellContentCssClass;
     }
 
     /**
-     * @param string $innerElementCssClass
+     * @param string $cellContentCssClass
      * @return Column
      */
-    public function setInnerElementCssClass(string $innerElementCssClass): Column
+    public function setCellContentCssClass(string $cellContentCssClass): Column
     {
-        $this->innerElementCssClass = $innerElementCssClass;
+        $this->cellContentCssClass = $cellContentCssClass;
         return $this;
     }
 
@@ -186,34 +186,34 @@ class Column
      */
     public function getOuterElementCssStyle(): string
     {
-        return $this->outerElementCssStyle;
+        return $this->cellCssStyle;
     }
 
     /**
-     * @param string $outerElementCssStyle
+     * @param string $cellCssStyle
      * @return Column
      */
-    public function setOuterElementCssStyle(string $outerElementCssStyle): Column
+    public function setCellCssStyle(string $cellCssStyle): Column
     {
-        $this->outerElementCssStyle = $outerElementCssStyle;
+        $this->cellCssStyle = $cellCssStyle;
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getOuterElementCssClass(): string
+    public function getCellCssClass(): string
     {
-        return $this->outerElementCssClass;
+        return $this->cellCssClass;
     }
 
     /**
-     * @param string $outerElementCssClass
+     * @param string $cellCssClass
      * @return Column
      */
-    public function setOuterElementCssClass(string $outerElementCssClass): Column
+    public function setCellCssClass(string $cellCssClass): Column
     {
-        $this->outerElementCssClass = $outerElementCssClass;
+        $this->cellCssClass = $cellCssClass;
         return $this;
     }
 
@@ -256,36 +256,36 @@ class Column
     /**
      * @return string
      */
-    public function getInnerElementAttributes(): string
+    public function getCellContentAttributes(): string
     {
-        return $this->innerElementAttributes;
+        return $this->cellContentAttributes;
     }
 
     /**
-     * @param string $innerElementAttributes
+     * @param string $cellContentAttributes
      * @return Column
      */
-    public function setInnerElementAttributes(string $innerElementAttributes): Column
+    public function setCellContentAttributes(string $cellContentAttributes): Column
     {
-        $this->innerElementAttributes = $innerElementAttributes;
+        $this->cellContentAttributes = $cellContentAttributes;
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getOuterElementAttributes(): string
+    public function getCellAttributes(): string
     {
-        return $this->outerElementAttributes;
+        return $this->cellAttributes;
     }
 
     /**
-     * @param string $outerElementAttributes
+     * @param string $cellAttributes
      * @return Column
      */
-    public function setOuterElementAttributes(string $outerElementAttributes): Column
+    public function setCellAttributes(string $cellAttributes): Column
     {
-        $this->outerElementAttributes = $outerElementAttributes;
+        $this->cellAttributes = $cellAttributes;
         return $this;
     }
 
