@@ -48,6 +48,7 @@ $col2->setCellContentCssClass('border border-danger'); #set css style of the ele
 $col2->setCellContentCssStyle('color:red'); #set css style of the element inside table td
 $grid->addColumn($col2);
 
+#catch and handle the ajax request 
 if ($grid->isReadyToHandleRequests()) {
     $grid->bootstrap();
 }
