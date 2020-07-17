@@ -52,6 +52,9 @@ if ($grid->isReadyToHandleRequests()) {
     $grid->bootstrap();
 }
 
+$grid->setDebug(true); #output additional debugging info in json responses
+
+
 echo $grid->draw();
 
 ```

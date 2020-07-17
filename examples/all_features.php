@@ -50,6 +50,8 @@ $col2->setCellContentCssClass('border border-danger');
 $col2->setCellContentCssStyle('color:red');
 $grid->addColumn($col2);
 
+$grid->setDebug(true); #output additional debugging info in json responses
+
 if ($grid->isReadyToHandleRequests()) {
     $grid->bootstrap();
 }
