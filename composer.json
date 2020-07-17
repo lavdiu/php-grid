@@ -22,5 +22,5 @@
     "autoload": {
         "psr-4": {"PhpGrid\\": "src/PhpGrid"}
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "stable"
 }
