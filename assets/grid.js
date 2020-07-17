@@ -361,7 +361,6 @@ class Grid {
             btnGroup.appendChild(mainBtn);
             btnGroup.appendChild(dropdownToggleButton);
             btnGroup.appendChild(dropdownMenu);
-            btnGroup.classList.add('d-print-none');
             this.contentGridButtons.appendChild(btnGroup);
         }
     }
@@ -480,6 +479,7 @@ class Grid {
             if (this.actionButtons.length > 0) {
                 var actionButtonsDropdown = document.createElement('div');
                 actionButtonsDropdown.classList.add('btn-group');
+                actionButtonsDropdown.classList.add('d-print-none');
                 var actionButtonsDropdown_button = document.createElement('button');
                 actionButtonsDropdown_button.className = "btn btn-outline-secondary btn-sm dropdown-toggle";
                 actionButtonsDropdown_button.setAttribute('type', 'button');
