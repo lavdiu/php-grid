@@ -31,18 +31,27 @@ $grid->setTitle('First Grid')
     ->setRowsPerPage(10)
     ->setSqlQuery("SELECT id, name, email, created_on FROM person")
     ->addColumn(new Column('id', 'Person Id', true, true, '?mod=person&id={id}', '_blank'))
-    ->addColumn(new Column('name', 'Full Name'))
     ->addColumn(new Column('email', 'Email Address'))
-    ->addColumn(new Column('created_on', 'Registration Date', false))
     ->addActionButton(new ActionButton('View', '?mod=person&id={id}', 'fa fa-eye'))
     ->addActionButton(new ActionButton('Update', '?mod=person&id={id}&action=update', 'fa fa-pencil'))
     ->addActionButton(new ActionButton('Delete', '?mod=person&id={id}&action=delete', 'fa fa-trash'));
+
+$col1 = new Column('name', 'Full Name');
+$col1->setCellCssClass('text-center');
+$col1->setCellCssStyle('background-color:silver');
+$grid->addColumn($col1);
+
+$col2 = new Column('created_on', 'Registration Date', true);
+$col2->setCellContentCssClass('border border-danger');
+$col2->setCellContentCssStyle('color:red');
+$grid->addColumn($col2);
 
 if ($grid->isReadyToHandleRequests()) {
     $grid->bootstrap();
 }
 
 echo $grid->draw();
+
 ```
 
 See [examples](https://github.com/lavdiu/php-grid/tree/master/examples) directory for more examples
