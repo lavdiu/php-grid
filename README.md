@@ -6,7 +6,6 @@ PHP Grid - simple php class that allows building dynamic grids using PHP and JS
 This class relies on the following libaries:
  * `box/spout` and `phpoffice/phpspreadsheet` to generate Excel exports on the server side
  * [SheetJS](https://github.com/sheetjs/sheetjs) to generate Excel/CSV export in the browser.
- * [FontAwesome](https://fontawesome.com/) to display icons
  * [JQuery](https://jquery.com/) and 
  * [Bootstrap 4](https://getbootstrap.com/)
 

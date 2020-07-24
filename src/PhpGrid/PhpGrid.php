@@ -960,7 +960,7 @@ class PhpGrid
 	     window.grid['{$gridName}'].initialize();
 	});
 </script>
-<div class='table-responsive' style='position:relative'>
+<div class='table-responsive' style='position:relative;min-height: 200px;;'>
 	<table id='{$gridName}' data-component-type='Grid' class='table table-striped table-bordered table-hover table-sm table-responsive-md'  style='margin-bottom:0;'>
 		<thead id='{$gridName}_thead' class='thead-light'>
 			<tr>
@@ -993,18 +993,44 @@ class PhpGrid
 				&nbsp;&nbsp;
 				<nav aria-label='Navigation'>
 					<ul class='pagination pagination-sm d-print-none'>
-						<li class='page-item'><a id='{$gridName}_paginationFirstPage' href='javascript:;' class='page-link' title='First Page'><i class='fa fa-angle-double-left'></i></a></li>
-						<li class='page-item'><a id='{$gridName}_paginationPrevPage' href='javascript:;' class='page-link' title='Previous Page'><i class='fa fa-angle-left'></i></a></li>
-						<li class='page-item'><a id='{$gridName}_paginationCurrPage' href='javascript:;' class='page-link' title='Current Page'>1</a></li>
-						<li class='page-item '><a  id='{$gridName}_paginationNextPage' href='javascript:;' class='page-link' title='Next Page'><i class='fa fa-angle-right'></i></a></li>
-						<li class='page-item'><a id='{$gridName}_paginationLastPage' href='javascript:;' class='page-link' title='Last Page'><i class='fa fa-angle-double-right'></i></a></i>
+						<li class='page-item'><a id='{$gridName}_paginationFirstPage' href='javascript:;' class='page-link' title='First Page'>
+						    <svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' stroke-width='1.5' stroke='#2c3e50' fill='none' stroke-linecap='round' stroke-linejoin='round'>
+                              <path stroke='none' d='M0 0h24v24H0z'/>
+                              <polyline points='11 7 6 12 11 17' />
+                              <polyline points='17 7 12 12 17 17' />
+                            </svg>
+                        </a></li>
+						<li class='page-item'><a id='{$gridName}_paginationPrevPage' href='javascript:;' class='page-link' title='Previous Page'>
+                            <svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' stroke-width='1.5' stroke='#2c3e50' fill='none' stroke-linecap='round' stroke-linejoin='round'>
+                              <path stroke='none' d='M0 0h24v24H0z'/>
+                              <polyline points='15 6 9 12 15 18' />
+                            </svg>
+                        </a></li>
+						<li class='page-item'><a id='{$gridName}_paginationCurrPage' href='javascript:;' style='line-height: 22px; width:22px;' class='page-link' title='Current Page'>1</a></li>
+						<li class='page-item '><a  id='{$gridName}_paginationNextPage' href='javascript:;' class='page-link' title='Next Page'>
+                            <svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' stroke-width='1.5' stroke='#2c3e50' fill='none' stroke-linecap='round' stroke-linejoin='round'>
+                              <path stroke='none' d='M0 0h24v24H0z'/>
+                              <polyline points='9 6 15 12 9 18' />
+                            </svg>
+                        </a></li>
+						<li class='page-item'><a id='{$gridName}_paginationLastPage' href='javascript:;' class='page-link' title='Last Page'>
+                            <svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' stroke-width='1.5' stroke='#2c3e50' fill='none' stroke-linecap='round' stroke-linejoin='round'>
+                              <path stroke='none' d='M0 0h24v24H0z'/>
+                              <polyline points='7 7 12 12 7 17' />
+                              <polyline points='13 7 18 12 13 17' />
+                            </svg>
+                        </a></i>
 					</ul>
 				</nav>
 			</div>
 		</div>
 	</div>
 	<div id='{$gridName}_loader' style='background-color: lightgray; z-index:85; position:absolute; top:0px; left:0px; width:100%; height:100%; opacity:.5; text-align: center;padding:20px; display:none;'>
-		<div class='fa-5x'><i class='fas fa-spinner fa-spin' style='color:#000000;'></i></div>
+		<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 50 50'>
+            <path fill='#333333' d='M25,5A20.14,20.14,0,0,1,45,22.88a2.51,2.51,0,0,0,2.49,2.26h0A2.52,2.52,0,0,0,50,22.33a25.14,25.14,0,0,0-50,0,2.52,2.52,0,0,0,2.5,2.81h0A2.51,2.51,0,0,0,5,22.88,20.14,20.14,0,0,1,25,5Z'>
+                <animateTransform attributeName='transform' type='rotate' from='0 25 25' to='360 25 25' dur='0.5s' repeatCount='indefinite'/>
+            </path>
+        </svg>
 	</div>
 </div>
 ";
