@@ -14,44 +14,88 @@ class Column
     public $format = "";
     public $href = "";
     public $target = "";
-    public $cellContentCssStyle = "";
-    public $cellContentCssClass = "";
-    public $cellCssStyle = "";
-    public $cellCssClass = "";
+    public $innerElementCssStyle = "";
+    public $innerElementCssClass = "";
+    public $outerElementCssStyle = "";
+    public $outerElementCssClass = "";
     public $visible = true;
     public $exportable = true;
-    public $cellContentAttributes = "";
-    public $cellAttributes = "";
+    public $innerElementAttributes = "";
+    public $outerElementAttributes = "";
 
     /**
      * Column constructor.
-     * @param string $fieldName
-     * @param string $label
+     * @param string|null $fieldName
+     * @param string|null $label
      * @param bool $visible
      * @param bool $exportable
-     * @param string $href
-     * @param string $target
-     * @param string $cellContentCssStyle
-     * @param string $cellContentCssClass
-     * @param string $cellCssStyle
-     * @param string $cellCssClass
-     * @param string $cellContentAttributes
-     * @param string $cellAttributes
+     * @param string|null $href
+     * @param string|null $target
+     * @param string|null $innerElementCssStyle
+     * @param string|null $innerElementCssClass
+     * @param string|null $outerElementCssStyle
+     * @param string|null $outerElementCssClass
+     * @param string|null $innerElementAttributes
+     * @param string|null $outerElementAttributes
      */
-    public function __construct(?string $fieldName = null, ?string $label = null, bool $visible = true, bool $exportable = true, ?string $href = null, ?string $target = null, ?string $cellContentCssStyle = null, ?string $cellContentCssClass = null, ?string $cellCssStyle = null, ?string $cellCssClass = null, string $cellContentAttributes = null, string $cellAttributes = null)
+    public function __construct(?string $fieldName = null, ?string $label = null, bool $visible = true, bool $exportable = true, ?string $href = null, ?string $target = null, ?string $innerElementCssStyle = null, ?string $innerElementCssClass = null, ?string $outerElementCssStyle = null, ?string $outerElementCssClass = null, string $innerElementAttributes = null, string $outerElementAttributes = null)
     {
         $this->fieldName = $fieldName;
         $this->label = $label;
         $this->href = $href;
         $this->target = $target;
-        $this->cellContentCssStyle = $cellContentCssStyle;
-        $this->cellContentCssClass = $cellContentCssClass;
-        $this->cellCssStyle = $cellCssStyle;
-        $this->cellCssClass = $cellCssClass;
+        $this->innerElementCssStyle = $innerElementCssStyle;
+        $this->innerElementCssClass = $innerElementCssClass;
+        $this->outerElementCssStyle = $outerElementCssStyle;
+        $this->outerElementCssClass = $outerElementCssClass;
         $this->visible = $visible;
         $this->exportable = $exportable;
-        $this->cellContentAttributes = $cellContentAttributes;
-        $this->cellAttributes = $cellAttributes;
+        $this->innerElementAttributes = $innerElementAttributes;
+        $this->outerElementAttributes = $outerElementAttributes;
+    }
+
+
+    /**
+     *
+     * INSERT INTO `grid` (`id`, `grid_name`, `title`, `params_list`, `expected_params_count`, `sql_query`, `settings`, `rows_per_page`, `created_by`, `created_on`, `updated_by`, `updated_on`, `column_list`) VALUES
+     * (1, 'test', 'My First Grid', NULL, 0, 'SELECT  g.grupid as id , g.grupid as label , g.g_grandtotal as page_file , g.g_b as is_default , g.g_b as is_visible , FROM_UNIXTIME(g.g_dataregjistrimit, \'%Y-%m-%d\') as test FROM asm.grup g', '{\"actionButtons\":[{\"label\":\"Edit\",\"href\":\"?modulus=[modulus]&action=[action]&id={id}&edit=1\",\"icon\":null},{\"label\":\"Goog List\",\"href\":\"http://google.com\",\"icon\":\"fa fa-list\"}], \"allowExport\":true}', 10, NULL, NULL, NULL, NULL, '[{\"fieldName\":\"id\",\"label\":\"Id\",\"format\":\"text\",\"href\":\"?module=routing_table&action={label}&view={id}&\",\"innerElementCssStyle\":\"\",\"innerElementCssClass\":\"\",\"outerElementCssStyle\":\"\",\"outerElementCssClass\":\"\",\"visible\":true,\"exportable\":true,\"innerElementAttributes\":\"\",\"outerElementAttributes\":\"\"},{\"fieldName\":\"label\",\"label\":\"Label\",\"format\":\"text\",\"href\":\"\",\"innerElementCssStyle\":\"color:red;\",\"innerElementCssClass\":\"badge\",\"outerElementCssStyle\":\"\",\"outerElementCssClass\":\"\",\"visible\":true,\"exportable\":true,\"innerElementAttributes\":\"\",\"outerElementAttributes\":\"\"},{\"fieldName\":\"page_file\",\"label\":\"Page File\",\"format\":\"text\",\"href\":\"\",\"innerElementCssStyle\":\"\",\"innerElementCssClass\":\"\",\"outerElementCssStyle\":\"font-weight:bold;\",\"outerElementCssClass\":\"label label-danger\",\"visible\":true,\"exportable\":true,\"innerElementAttributes\":\"\",\"outerElementAttributes\":\"\"},{\"fieldName\":\"is_default\",\"label\":\"Is Default Page\",\"format\":\"text\",\"href\":\"\",\"innerElementCssStyle\":\"\",\"innerElementCssClass\":\"\",\"outerElementCssStyle\":\"font-weight:bold;\",\"outerElementCssClass\":\"label label-danger\",\"visible\":false,\"exportable\":true,\"innerElementAttributes\":\"\",\"outerElementAttributes\":\"\"},{\"fieldName\":\"is_visible\",\"label\":\"Is Visible Page\",\"format\":\"text\",\"href\":\"\",\"innerElementCssStyle\":\"\",\"innerElementCssClass\":\"\",\"outerElementCssStyle\":\"font-weight:bold;\",\"outerElementCssClass\":\"label label-danger\",\"visible\":true,\"exportable\":true,\"innerElementAttributes\":\"\",\"outerElementAttributes\":\"\"},{\"fieldName\":\"test\",\"label\":\"Date field\",\"format\":\"text\",\"href\":\"\",\"innerElementCssStyle\":\"\",\"innerElementCssClass\":\"\",\"outerElementCssStyle\":\"\",\"outerElementCssClass\":\"\",\"visible\":true,\"exportable\":true,\"innerElementAttributes\":\"\",\"outerElementAttributes\":\"\"}]');
+     *
+     */
+
+
+    /**
+     * @param string $json_string
+     * @return Column
+     */
+    public static function createFromJsonString(string $json_string)
+    {
+        $settings = json_decode($json_string, true);
+        $object = new self($settings['fieldName']);
+
+        foreach ($settings as $_property => $_value) {
+            $object->setPropertyValue($_property, $_value);
+        }
+        return $object;
+    }
+
+    /**
+     * @param array $settings
+     * @return Column
+     */
+    public static function createFromAssocArray(array $settings)
+    {
+        $object = new self($settings['fieldName']);
+        foreach ($settings as $_property => $_value) {
+            $object->setPropertyValue($_property, $_value);
+        }
+        return $object;
+    }
+
+    public function setPropertyValue(string $property, string $value)
+    {
+        if (property_exists(self::class, $property)) {
+            $this->$property = $value;
+        }
     }
 
     /**
@@ -148,36 +192,36 @@ class Column
     /**
      * @return string
      */
-    public function getCellContentCssStyle(): string
+    public function getInnerElementCssStyle(): string
     {
-        return $this->cellContentCssStyle;
+        return $this->innerElementCssStyle;
     }
 
     /**
-     * @param string $cellContentCssStyle
+     * @param string $innerElementCssStyle
      * @return Column
      */
-    public function setCellContentCssStyle(string $cellContentCssStyle): Column
+    public function setInnerElementCssStyle(string $innerElementCssStyle): Column
     {
-        $this->cellContentCssStyle = $cellContentCssStyle;
+        $this->innerElementCssStyle = $innerElementCssStyle;
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getCellContentCssClass(): string
+    public function getInnerElementCssClass(): string
     {
-        return $this->cellContentCssClass;
+        return $this->innerElementCssClass;
     }
 
     /**
-     * @param string $cellContentCssClass
+     * @param string $innerElementCssClass
      * @return Column
      */
-    public function setCellContentCssClass(string $cellContentCssClass): Column
+    public function setInnerElementCssClass(string $innerElementCssClass): Column
     {
-        $this->cellContentCssClass = $cellContentCssClass;
+        $this->innerElementCssClass = $innerElementCssClass;
         return $this;
     }
 
@@ -186,34 +230,34 @@ class Column
      */
     public function getOuterElementCssStyle(): string
     {
-        return $this->cellCssStyle;
+        return $this->outerElementCssStyle;
     }
 
     /**
-     * @param string $cellCssStyle
+     * @param string $outerElementCssStyle
      * @return Column
      */
-    public function setCellCssStyle(string $cellCssStyle): Column
+    public function setOuterElementCssStyle(string $outerElementCssStyle): Column
     {
-        $this->cellCssStyle = $cellCssStyle;
+        $this->outerElementCssStyle = $outerElementCssStyle;
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getCellCssClass(): string
+    public function getOuterElementCssClass(): string
     {
-        return $this->cellCssClass;
+        return $this->outerElementCssClass;
     }
 
     /**
-     * @param string $cellCssClass
+     * @param string $outerElementCssClass
      * @return Column
      */
-    public function setCellCssClass(string $cellCssClass): Column
+    public function setOuterElementCssClass(string $outerElementCssClass): Column
     {
-        $this->cellCssClass = $cellCssClass;
+        $this->outerElementCssClass = $outerElementCssClass;
         return $this;
     }
 
@@ -256,36 +300,36 @@ class Column
     /**
      * @return string
      */
-    public function getCellContentAttributes(): string
+    public function getInnerElementAttributes(): string
     {
-        return $this->cellContentAttributes;
+        return $this->innerElementAttributes;
     }
 
     /**
-     * @param string $cellContentAttributes
+     * @param string $innerElementAttributes
      * @return Column
      */
-    public function setCellContentAttributes(string $cellContentAttributes): Column
+    public function setInnerElementAttributes(string $innerElementAttributes): Column
     {
-        $this->cellContentAttributes = $cellContentAttributes;
+        $this->innerElementAttributes = $innerElementAttributes;
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getCellAttributes(): string
+    public function getOuterElementAttributes(): string
     {
-        return $this->cellAttributes;
+        return $this->outerElementAttributes;
     }
 
     /**
-     * @param string $cellAttributes
+     * @param string $outerElementAttributes
      * @return Column
      */
-    public function setCellAttributes(string $cellAttributes): Column
+    public function setOuterElementAttributes(string $outerElementAttributes): Column
     {
-        $this->cellAttributes = $cellAttributes;
+        $this->outerElementAttributes = $outerElementAttributes;
         return $this;
     }
 

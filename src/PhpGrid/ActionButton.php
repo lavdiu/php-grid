@@ -1,5 +1,6 @@
 <?php
 
+
 namespace PhpGrid;
 
 /**
@@ -22,6 +23,11 @@ class ActionButton
      * @var string
      */
     public $icon = null;
+
+    /**
+     * @var array
+     */
+    public $attributeList = [];
 
     /**
      * ActionButton constructor.
@@ -89,4 +95,30 @@ class ActionButton
         $this->icon = $icon;
         return $this;
     }
+
+    /**
+     * @return array
+     */
+    public function getAttributes(): array
+    {
+        return $this->attributeList;
+    }
+
+    /**
+     * @param array $attributes
+     * @return ActionButton
+     */
+    public function setAttributes(array $attributes): ActionButton
+    {
+        $this->attributeList = $attributes;
+        return $this;
+    }
+
+    public function addAttribute(string $attribute, string $value): ActionButton
+    {
+        $this->attributeList[$attribute] = $value;
+        return $this;
+    }
+
+
 }

@@ -11,7 +11,6 @@ use Box\Spout\Writer\Exception\WriterNotOpenedException;
 use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use PhpOffice\PhpSpreadsheet\Shared\Font;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Exception;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 
@@ -21,6 +20,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
  */
 class PhpGrid
 {
+
     /**
      * @var \PDO
      */
@@ -112,6 +112,12 @@ class PhpGrid
      * @var bool
      */
     protected $debug = false;
+
+    /**
+     * @var bool
+     */
+    protected $enableWildCardSearch = false;
+
 
     /**
      * PhpGrid constructor.
@@ -401,7 +407,7 @@ class PhpGrid
 
     /**
      * @param string $fieldName
-     * @return Column
+     * @return Column|null
      */
     public function getColumn(string $fieldName): ?Column
     {
@@ -599,7 +605,11 @@ class PhpGrid
 
                 $sqlWhere .= "\n\tAND `" . $property . "` " . $operator . " :" . $property;
                 if ($operator == 'LIKE') {
-                    $this->addParam($property, $value . '%');
+                    if ($this->isEnableWildCardSearch()) {
+                        $this->addParam($property, '%' . $value . '%');
+                    } else {
+                        $this->addParam($property, $value . '%');
+                    }
                 } else {
                     $this->addParam($property, $value);
                 }
@@ -674,6 +684,7 @@ class PhpGrid
                 return '!=';
                 break;
             case 'like':
+            default:
                 return 'LIKE';
                 break;
         }
@@ -682,7 +693,7 @@ class PhpGrid
     /**
      * @return bool
      */
-    protected function isValid()
+    protected function isValid(): bool
     {
         if (strlen($this->getSqlQuery()) < 10) {
             $this->errorMessage = "Missing SQL Query";
@@ -754,10 +765,7 @@ class PhpGrid
     }
 
     /**
-     * @throws IOException
-     * @throws WriterNotOpenedException
-     * @throws \PhpOffice\PhpSpreadsheet\Exception
-     * @throws Exception
+     * @throws \Exception
      */
     public function bootstrap()
     {
@@ -773,9 +781,8 @@ class PhpGrid
     }
 
     /**
-     * Export data to Excel using Spreadsheet
-     * @throws \PhpOffice\PhpSpreadsheet\Exception
-     * @throws Exception
+     * @return null
+     * @throws \Exception
      */
     public function exportToExcelPhpExcel()
     {
@@ -786,7 +793,7 @@ class PhpGrid
         $_column = 'A';
         $_row = 1;
         $workbook = new Spreadsheet();
-        $fileName = $this->getGridName() . date(' (Y-m-d H.i)') . '.xlsx';
+        $fileName = $this->getGridName() . date(' (Y-m-d Hi).xslx');
 
         $sheet = $workbook->getActiveSheet();
 
@@ -849,12 +856,18 @@ class PhpGrid
      */
     public function exportToExcelSpout()
     {
+        $fileName = $this->getGridName() . date(' (Y-m-d Hi).xslx');
+
+        ob_clean();
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="' . $fileName . '"');
+        header('Cache-Control: max-age=0');
+
         if (!$this->getAllowExport()) {
             return null;
         }
 
         $w = WriterEntityFactory::createXLSXWriter();
-        $fileName = $this->getGridName() . date(' (Y-m-d H.i)') . '.xlsx';
         $w->openToBrowser($fileName);
 
         $headingRow = [];
@@ -889,7 +902,7 @@ class PhpGrid
         }
 
         $w->close();
-        $w->openToBrowser($fileName);
+        exit;
     }
 
     public function exportToCsv()
@@ -898,16 +911,36 @@ class PhpGrid
             return null;
         }
 
+        $fileName = $this->getGridName() . date(' (Y-m-d Hi)') . '.csv';
 
+        ob_clean();
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment;filename="' . $fileName . '"');
+        header('Cache-Control: max-age=0');
+
+        $headingRow = [];
+        foreach ($this->getColumnsList() as $column) {
+            $headingRow[] = $column->getLabel();
+        }
+
+        $this->execute(true);
+        $file = fopen('php://output', 'wb');
+        fputcsv($file, $headingRow);
+        foreach ($this->data as $row) {
+            fputcsv($file, $row);
+        }
+        fclose($file);
+        exit;
     }
 
     /**
      * Output Json clearing the buffer and setting proper json headers
      * If the results are not generated, it would re-run it
      * @param bool $reload_results
+     * @return void
      * @throws \Exception
      */
-    public function outputJsonWithHeaders(bool $reload_results = false)
+    public function outputJsonWithHeaders(bool $reload_results = false): void
     {
         ob_clean();
         header('Content-Type: application/json');
@@ -960,7 +993,7 @@ class PhpGrid
 	     window.grid['{$gridName}'].initialize();
 	});
 </script>
-<div class='table-responsive' style='position:relative;min-height: 200px;;'>
+<div class='table-responsive' style='position:relative;overflow: visible'>
 	<table id='{$gridName}' data-component-type='Grid' class='table table-striped table-bordered table-hover table-sm table-responsive-md'  style='margin-bottom:0;'>
 		<thead id='{$gridName}_thead' class='thead-light'>
 			<tr>
@@ -979,58 +1012,33 @@ class PhpGrid
 	<div>
 		<div class='d-flex justify-content-between'>
 			<div id='{$gridName}_paginationInfoSection' class='m-0 py-2 small'></div>
-			<div class='row m-0 py-2 d-print-none'>
-				<span class='dropdown'>
-				  <button title='Choose how many rows to show per page' class='btn btn-outline-secondary btn-sm dropdown-toggle' type='button' id='{$gridName}_rowsPerPageSelector' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>10</button>
-				  <span class='dropdown-menu text-right' aria-labelledby='{$gridName}_pagesPerRowSelector'>
-				    <a class='dropdown-item' href='javascript:;' onclick=\"window.grid['{$gridName}'].setRowsPerPage(10);\">10</a>
-				    <a class='dropdown-item' href='javascript:;' onclick=\"window.grid['{$gridName}'].setRowsPerPage(50);\">50</a>
-				    <a class='dropdown-item' href='javascript:;' onclick=\"window.grid['{$gridName}'].setRowsPerPage(100);\">100</a>
-				    <!-- <a class='dropdown-item' href='javascript:;' onclick=\"window.grid['{$gridName}'].setRowsPerPage(1000);\">1000</a> -->
-				    <!-- <a class='dropdown-item' href='javascript:;' onclick=\"window.grid['{$gridName}'].setRowsPerPage(0);\">All</a> -->
-				  </span>
-				</span>
-				&nbsp;&nbsp;
-				<nav aria-label='Navigation'>
-					<ul class='pagination pagination-sm d-print-none'>
-						<li class='page-item'><a id='{$gridName}_paginationFirstPage' href='javascript:;' class='page-link' title='First Page'>
-						    <svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' stroke-width='1.5' stroke='#2c3e50' fill='none' stroke-linecap='round' stroke-linejoin='round'>
-                              <path stroke='none' d='M0 0h24v24H0z'/>
-                              <polyline points='11 7 6 12 11 17' />
-                              <polyline points='17 7 12 12 17 17' />
-                            </svg>
-                        </a></li>
-						<li class='page-item'><a id='{$gridName}_paginationPrevPage' href='javascript:;' class='page-link' title='Previous Page'>
-                            <svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' stroke-width='1.5' stroke='#2c3e50' fill='none' stroke-linecap='round' stroke-linejoin='round'>
-                              <path stroke='none' d='M0 0h24v24H0z'/>
-                              <polyline points='15 6 9 12 15 18' />
-                            </svg>
-                        </a></li>
-						<li class='page-item'><a id='{$gridName}_paginationCurrPage' href='javascript:;' style='line-height: 22px; width:22px;' class='page-link' title='Current Page'>1</a></li>
-						<li class='page-item '><a  id='{$gridName}_paginationNextPage' href='javascript:;' class='page-link' title='Next Page'>
-                            <svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' stroke-width='1.5' stroke='#2c3e50' fill='none' stroke-linecap='round' stroke-linejoin='round'>
-                              <path stroke='none' d='M0 0h24v24H0z'/>
-                              <polyline points='9 6 15 12 9 18' />
-                            </svg>
-                        </a></li>
-						<li class='page-item'><a id='{$gridName}_paginationLastPage' href='javascript:;' class='page-link' title='Last Page'>
-                            <svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' stroke-width='1.5' stroke='#2c3e50' fill='none' stroke-linecap='round' stroke-linejoin='round'>
-                              <path stroke='none' d='M0 0h24v24H0z'/>
-                              <polyline points='7 7 12 12 7 17' />
-                              <polyline points='13 7 18 12 13 17' />
-                            </svg>
-                        </a></i>
-					</ul>
-				</nav>
+			<div class='row m-0 py-2'>
+			    <div class='col'>
+                    <span class='dropdown'>
+                      <button title='Choose how many rows to show per page' class='btn btn-outline-secondary btn-sm dropdown-toggle' type='button' id='{$gridName}_rowsPerPageSelector' data-toggle='dropdown' data-bs-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>10</button>
+                      <span class='dropdown-menu text-right' aria-labelledby='{$gridName}_pagesPerRowSelector'>
+                        <a class='dropdown-item' href='javascript:;' onclick=\"window.grid['{$gridName}'].setRowsPerPage(10);\">10</a>
+                        <a class='dropdown-item' href='javascript:;' onclick=\"window.grid['{$gridName}'].setRowsPerPage(50);\">50</a>
+                        <a class='dropdown-item' href='javascript:;' onclick=\"window.grid['{$gridName}'].setRowsPerPage(100);\">100</a>
+                      </span>
+                    </span>
+				</div>
+                <div class='col'>
+                    <nav aria-label='Navigation'>
+                        <ul class='Laf-SimpleTable-Pagination pagination pagination-sm'>
+                            <li class='page-item'><a id='{$gridName}_paginationFirstPage' href='javascript:;' class='page-link' title='First Page'><i class='fa fa-angle-double-left'></i></a></li>
+                            <li class='page-item'><a id='{$gridName}_paginationPrevPage' href='javascript:;' class='page-link' title='Previous Page'><i class='fa fa-angle-left'></i></a></li>
+                            <li class='page-item'><a id='{$gridName}_paginationCurrPage' href='javascript:;' class='page-link' title='Current Page'>1</a></li>
+                            <li class='page-item '><a  id='{$gridName}_paginationNextPage' href='javascript:;' class='page-link' title='Next Page'><i class='fa fa-angle-right'></i></a></li>
+                            <li class='page-item'><a id='{$gridName}_paginationLastPage' href='javascript:;' class='page-link' title='Last Page'><i class='fa fa-angle-double-right'></i></a></i>
+                        </ul>
+                    </nav>
+				</div>
 			</div>
 		</div>
 	</div>
 	<div id='{$gridName}_loader' style='background-color: lightgray; z-index:85; position:absolute; top:0px; left:0px; width:100%; height:100%; opacity:.5; text-align: center;padding:20px; display:none;'>
-		<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 50 50'>
-            <path fill='#333333' d='M25,5A20.14,20.14,0,0,1,45,22.88a2.51,2.51,0,0,0,2.49,2.26h0A2.52,2.52,0,0,0,50,22.33a25.14,25.14,0,0,0-50,0,2.52,2.52,0,0,0,2.5,2.81h0A2.51,2.51,0,0,0,5,22.88,20.14,20.14,0,0,1,25,5Z'>
-                <animateTransform attributeName='transform' type='rotate' from='0 25 25' to='360 25 25' dur='0.5s' repeatCount='indefinite'/>
-            </path>
-        </svg>
+		<div class='fa-5x'><i class='fas fa-spinner fa-spin' style='color:#000000;'></i></div>
 	</div>
 </div>
 ";
@@ -1095,6 +1103,26 @@ class PhpGrid
      */
     public function isReadyToHandleRequests()
     {
-        return array_key_exists('load_grid_by_name', $this->getFilters());
+        return array_key_exists('load_grid_by_name', $this->getFilters()) && $this->getFilters()['load_grid_by_name'] == $this->getGridName();
     }
+
+    /**
+     * @return bool
+     */
+    public function isEnableWildCardSearch(): bool
+    {
+        return $this->enableWildCardSearch;
+    }
+
+    /**
+     * @param bool $enableWildCardSearch
+     * @return PhpGrid
+     */
+    public function setEnableWildCardSearch(bool $enableWildCardSearch): PhpGrid
+    {
+        $this->enableWildCardSearch = $enableWildCardSearch;
+        return $this;
+    }
+
+
 }

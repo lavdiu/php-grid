@@ -168,13 +168,7 @@ class Grid {
             alert('Failed loading data for the table. Please refresh the page and try again')
         });
 
-        this.contentPaginationRowsPerPageSelector.innerHTML = "<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' stroke-width='1.5' stroke='#2c3e50' fill='none' stroke-linecap='round' stroke-linejoin='round'>\n" +
-            "  <path stroke='none' d='M0 0h24v24H0z'/>\n" +
-            "  <rect x='5' y='3' width='14' height='18' rx='2' />\n" +
-            "  <line x1='9' y1='7' x2='15' y2='7' />\n" +
-            "  <line x1='9' y1='11' x2='15' y2='11' />\n" +
-            "  <line x1='9' y1='15' x2='13' y2='15' />\n" +
-            "</svg> " + (this.rowsPerPage == 0 ? 'All' : this.rowsPerPage);
+        this.contentPaginationRowsPerPageSelector.innerHTML = "<i class='fa fa-bars'></i> " + (this.rowsPerPage == 0 ? 'All' : this.rowsPerPage);
     }
 
     refresh() {
@@ -236,7 +230,7 @@ class Grid {
             columnTitle.classList.add('float-left');
 
             var columnSortButton = document.createElement('a');
-            columnSortButton.className = 'float-right btn btn-sm btn-outline-secondary d-print-none';
+            columnSortButton.className = 'float-right btn btn-sm btn-outline-secondary';
             columnSortButton.href = 'javascript:;';
             columnSortButton.setAttribute('fieldName', column.fieldName);
             columnSortButton.setAttribute('gridName', this.name);
@@ -257,34 +251,18 @@ class Grid {
             };
 
             var columnSortbuttonIcon = document.createElement('i');
+            columnSortbuttonIcon.classList.add('fas');
             if (window.grid[self.name].sortColumn == column.fieldName) {
                 if (window.grid[self.name].sortDir != 'desc') {
-                    columnSortbuttonIcon.innerHTML = "<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' stroke-width='1.5' stroke='#2c3e50' fill='none' stroke-linecap='round' stroke-linejoin='round'>\n" +
-                        "  <path stroke='none' d='M0 0h24v24H0z'/>\n" +
-                        "  <line x1='4' y1='6' x2='13' y2='6' />\n" +
-                        "  <line x1='4' y1='12' x2='11' y2='12' />\n" +
-                        "  <line x1='4' y1='18' x2='11' y2='18' />\n" +
-                        "  <polyline points='15 15 18 18 21 15' />\n" +
-                        "  <line x1='18' y1='6' x2='18' y2='18' />\n" +
-                        "</svg>";
+                    columnSortbuttonIcon.classList.add('fa-sort-down');
                 } else {
-                    columnSortbuttonIcon.innerHTML = "<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' stroke-width='1.5' stroke='#2c3e50' fill='none' stroke-linecap='round' stroke-linejoin='round'>\n" +
-                        "  <path stroke='none' d='M0 0h24v24H0z'/>\n" +
-                        "  <line x1='4' y1='6' x2='11' y2='6' />\n" +
-                        "  <line x1='4' y1='12' x2='11' y2='12' />\n" +
-                        "  <line x1='4' y1='18' x2='13' y2='18' />\n" +
-                        "  <polyline points='15 9 18 6 21 9' />\n" +
-                        "  <line x1='18' y1='6' x2='18' y2='18' />\n" +
-                        "</svg>";
+                    columnSortbuttonIcon.classList.add('fa-sort-up');
                 }
             } else {
-                columnSortbuttonIcon.innerHTML = "<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' stroke-width='1.5' stroke='#2c3e50' fill='none' stroke-linecap='round' stroke-linejoin='round'>\n" +
-                    "  <path stroke='none' d='M0 0h24v24H0z'/>\n" +
-                    "  <path d='M3 9l4-4l4 4m-4 -4v14' />\n" +
-                    "  <path d='M21 15l-4 4l-4-4m4 4v-14' />\n" +
-                    "</svg>";
+                columnSortbuttonIcon.classList.add('fa-sort');
             }
             columnSortButton.appendChild(columnSortbuttonIcon);
+            columnSortButton.classList.add('d-print-none');
             th.appendChild(columnTitle);
             th.appendChild(columnSortButton);
 
@@ -343,18 +321,11 @@ class Grid {
 
             var btnGroup = document.createElement('div');
             btnGroup.classList.add('btn-group');
-            btnGroup.classList.add('d-print-none');
 
             var mainBtn = document.createElement('a');
             mainBtn.setAttribute('gridName', this.name);
             mainBtn.setAttribute('title', "Export to Excel");
-            mainBtn.innerHTML = "<span><svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' stroke-width='1.5' stroke='#2c3e50' fill='none' stroke-linecap='round' stroke-linejoin='round'>\n" +
-                "  <path stroke='none' d='M0 0h24v24H0z'/>\n" +
-                "  <path d='M14 3v4a1 1 0 0 0 1 1h4' />\n" +
-                "  <path d='M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z' />\n" +
-                "  <line x1='12' y1='11' x2='12' y2='17' />\n" +
-                "  <polyline points='9 14 12 17 15 14' />\n" +
-                "</svg></span>"
+            mainBtn.innerHTML = "<i class='fas fa-download'></i>";
             mainBtn.href = "javascript:;";
             mainBtn.className = 'btn btn-sm btn-outline-secondary';
             mainBtn.onclick = function () {
@@ -364,6 +335,7 @@ class Grid {
             var dropdownToggleButton = document.createElement('button');
             dropdownToggleButton.className = "btn btn-sm btn-outline-secondary dropdown-toggle dropdown-toggle-split";
             dropdownToggleButton.setAttribute('data-toggle', 'dropdown');
+            dropdownToggleButton.setAttribute('data-bs-toggle', 'dropdown');
             dropdownToggleButton.setAttribute('aria-haspopup', 'true');
             dropdownToggleButton.setAttribute('aria-expande', 'false');
 
@@ -381,13 +353,7 @@ class Grid {
             for (var _idx in links) {
                 var _link = document.createElement('a');
                 _link.classList.add('dropdown-item');
-                _link.innerHTML = "<i><svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' stroke-width='1.5' stroke='#2c3e50' fill='none' stroke-linecap='round' stroke-linejoin='round'>\n" +
-                    "  <path stroke='none' d='M0 0h24v24H0z'/>\n" +
-                    "  <path d='M14 3v4a1 1 0 0 0 1 1h4' />\n" +
-                    "  <path d='M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z' />\n" +
-                    "  <line x1='12' y1='11' x2='12' y2='17' />\n" +
-                    "  <polyline points='9 14 12 17 15 14' />\n" +
-                    "</svg></i> " + links[_idx][0];
+                _link.innerHTML = "<i class='fas fa-download'></i> " + links[_idx][0];
                 _link.href = links[_idx][1]
                 _link.setAttribute('gridName', this.name);
                 dropdownMenu.appendChild(_link)
@@ -396,6 +362,7 @@ class Grid {
             btnGroup.appendChild(mainBtn);
             btnGroup.appendChild(dropdownToggleButton);
             btnGroup.appendChild(dropdownMenu);
+            btnGroup.classList.add('d-print-none');
             this.contentGridButtons.appendChild(btnGroup);
         }
     }
@@ -420,18 +387,17 @@ class Grid {
         $.getJSON(this.url, function (data) {
             _data = data;
         }).fail(function () {
-            alert('Faile loading data for the table. Please refresh the page and try again')
+            alert('Failed loading data for the table. Please refresh the page and try again')
         });
 
 
         var nowDate = new Date();
-        var now = nowDate.getFullYear() + '-' + (nowDate.getMonth() + 1) + '-' + nowDate.getDate();
-        var fileName = _data.name + ' (' + now + ')';
-        fileName = fileName.substring(1,30)
+        var now = nowDate.getFullYear() + '-' + (nowDate.getMonth() + 1) + '-' + nowDate.getDate() + ' ' + nowDate.getHours() + '.' + nowDate.getMinutes();
+        var fileName = _data.name;
         var worksheet = XLSX.utils.json_to_sheet(_data.rows);
         var workbook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workbook, worksheet, fileName);
-        var bin = XLSX.writeFile(workbook, (fileName + '.xlsx'), {bookType: 'xlsx'});
+        var bin = XLSX.writeFile(workbook, (fileName + ' (' + now + ')' + '.xlsx'), {bookType: 'xlsx'});
         this.hideLoadingIcon();
     }
 
@@ -454,13 +420,12 @@ class Grid {
 
 
         var nowDate = new Date();
-        var now = nowDate.getFullYear() + '-' + (nowDate.getMonth() + 1) + '-' + nowDate.getDate();
-        var fileName = _data.name + ' (' + now + ')';
-        fileName = fileName.substring(1,30)
+        var now = nowDate.getFullYear() + '-' + (nowDate.getMonth() + 1) + '-' + nowDate.getDate() + ' ' + nowDate.getHours() + '.' + nowDate.getMinutes();
+        var fileName = _data.name;
         var worksheet = XLSX.utils.json_to_sheet(_data.rows);
         var workbook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workbook, worksheet, fileName);
-        var bin = XLSX.writeFile(workbook, (fileName + '.csv'), {bookType: 'csv'});
+        var bin = XLSX.writeFile(workbook, (fileName + ' (' + now + ')' + '.csv'), {bookType: 'csv'});
     }
 
     draw() {
@@ -503,6 +468,7 @@ class Grid {
                 td.style = column.outerElementCssStyle;
                 td.className = column.outerElementCssClass;
 
+
                 tr.appendChild(td);
             }
 
@@ -513,21 +479,14 @@ class Grid {
             if (this.actionButtons.length > 0) {
                 var actionButtonsDropdown = document.createElement('div');
                 actionButtonsDropdown.classList.add('btn-group');
-                actionButtonsDropdown.classList.add('d-print-none');
                 var actionButtonsDropdown_button = document.createElement('button');
                 actionButtonsDropdown_button.className = "btn btn-outline-secondary btn-sm dropdown-toggle";
                 actionButtonsDropdown_button.setAttribute('type', 'button');
                 actionButtonsDropdown_button.setAttribute('data-toggle', 'dropdown');
+                actionButtonsDropdown_button.setAttribute('data-bs-toggle', 'dropdown');
                 actionButtonsDropdown_button.setAttribute('aria-haspopup', 'true');
                 actionButtonsDropdown_button.setAttribute('aria-expanded', 'false');
-                actionButtonsDropdown_button.innerHTML = "<span>" +
-                    "<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' stroke-width='1.5' stroke='#2c3e50' fill='none' stroke-linecap='round' stroke-linejoin='round'>\n" +
-                    "  <path stroke='none' d='M0 0h24v24H0z'/>\n" +
-                    "  <line x1='4' y1='6' x2='20' y2='6' />\n" +
-                    "  <line x1='4' y1='12' x2='20' y2='12' />\n" +
-                    "  <line x1='4' y1='18' x2='20' y2='18' />\n" +
-                    "</svg>" +
-                    "</span>";
+                actionButtonsDropdown_button.innerHTML = "<i class='fa fa-cog'></i>";
 
                 actionButtonsDropdown.appendChild(actionButtonsDropdown_button);
                 var actionButtonsDropdown_menu = document.createElement('div');
@@ -540,6 +499,13 @@ class Grid {
                         _item.classList.add('dropdown-item');
                         _item.href = this.formatLinkHref(this.rows[rowIndex], currentActionButton.href)
                         _item.innerHTML = "<i class='" + currentActionButton.icon + "'></i> " + currentActionButton.label;
+
+
+                        //check if it has attributes
+                        for (var attribProperty in currentActionButton.attributeList) {
+                            _item.setAttribute(attribProperty, currentActionButton.attributeList[attribProperty]);
+                        }
+
                         actionButtonsDropdown_menu.appendChild(_item);
                     }
                 }
@@ -581,7 +547,7 @@ class Grid {
         if (href.includes('{')) {
             for (let column in data) {
                 if (data.hasOwnProperty(column)) {
-                    href = href.replace(('{' + column + '}'), data[column]);
+                    href = href.replaceAll(('{' + column + '}'), data[column]);
                 }
             }
         }
@@ -589,7 +555,7 @@ class Grid {
         var urlParams = new URLSearchParams(window.location.search);
         if (href.includes('[')) {
             for (const [key, value] of urlParams) {
-                href = href.replace(('\[' + key + '\]'), value);
+                href = href.replaceAll(('\[' + key + '\]'), value);
             }
         }
         return href
@@ -1003,13 +969,13 @@ class Column {
         this._label = this._data.label;
         this._format = this._data.format;
         this._href = this._data.href;
-        this._innerElementCssStyle = this._data.cellContentCssStyle;
-        this._innerElementCssClass = this._data.cellContentCssClass;
-        this._outerElementCssStyle = this._data.cellCssStyle;
-        this._outerElementCssClass = this._data.cellCssClass;
+        this._innerElementCssStyle = this._data.innerElementCssStyle;
+        this._innerElementCssClass = this._data.innerElementCssClass;
+        this._outerElementCssStyle = this._data.outerElementCssStyle;
+        this._outerElementCssClass = this._data.outerElementCssClass;
         this._visible = this._data.visible;
-        this._innerElementAttributes = this._data.cellContentAttributes;
-        this._outerElementAttributes = this._data.cellAttributes;
+        this._innerElementAttributes = this._data.innerElementAttributes;
+        this._outerElementAttributes = this._data.outerElementAttributes;
         this._target = this._data.target;
     }
 
@@ -1039,6 +1005,9 @@ class Column {
     }
 
     get label() {
+        if(this._label == null){
+            return "";
+        }
         return this._label;
     }
 
@@ -1047,6 +1016,9 @@ class Column {
     }
 
     get format() {
+        if(this._format == null){
+            return "";
+        }
         return this._format;
     }
 
@@ -1063,6 +1035,9 @@ class Column {
     }
 
     get target() {
+        if(this._target == null){
+            return "";
+        }
         return this._target;
     }
 
@@ -1071,6 +1046,9 @@ class Column {
     }
 
     get innerElementCssStyle() {
+        if(this._innerElementCssStyle == null){
+            return "";
+        }
         return this._innerElementCssStyle;
     }
 
@@ -1079,6 +1057,9 @@ class Column {
     }
 
     get innerElementCssClass() {
+        if(this._innerElementCssClass == null){
+            return "";
+        }
         return this._innerElementCssClass;
     }
 
@@ -1087,14 +1068,21 @@ class Column {
     }
 
     get outerElementCssStyle() {
+        if(this._outerElementCssStyle == null){
+            return "";
+        }
         return this._outerElementCssStyle;
     }
 
     set outerElementCssStyle(value) {
+
         this._outerElementCssStyle = value;
     }
 
     get outerElementCssClass() {
+        if(this._outerElementCssClass == null){
+            return "";
+        }
         return this._outerElementCssClass;
     }
 
@@ -1103,6 +1091,9 @@ class Column {
     }
 
     get visible() {
+        if(this._visible == null){
+            return "";
+        }
         return this._visible;
     }
 
