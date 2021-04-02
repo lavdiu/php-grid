@@ -19,7 +19,7 @@ Copy `grid.js` from `assets/` folder to your assets folder or root of your web d
 
 ### Usage
 ```php
-require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 use PhpGrid\PhpGrid;
 use PhpGrid\Column;
@@ -27,33 +27,43 @@ use PhpGrid\ActionButton;
 
 $pdo = new PDO('mysql:host=localhost;dbname=database', 'username', 'password');
 
-$grid = new PhpGrid($pdo, 'test_grid');
-$grid->setTitle('First Grid')
+$grid = new PhpGrid($pdo, 'contacts_list');
+$grid->setTitle('List of all contacts')
     ->setRowsPerPage(10)
-    ->setSqlQuery("SELECT id, name, email, created_on FROM contacts")
+    ->setSqlQuery("SELECT id, name, email, created_on FROM contact_list")
     ->addColumn(new Column('id', 'Contact Id', true, true, '?mod=contact&id={id}', '_blank'))
     ->addColumn(new Column('email', 'Email Address'))
     ->addActionButton(new ActionButton('View', '?mod=contact&id={id}', 'fa fa-eye'))
-    ->addActionButton(new ActionButton('Update', '?mod=contact&id={id}&action=update', 'fa fa-pencil'))
-    ->addActionButton(new ActionButton('Delete', '?mod=contact&id={id}&action=delete', 'fa fa-trash'));
+    ->addActionButton(new ActionButton('Update', '?mod=contact&id={id}&action=update', 'fa fa-pencil'));
 
+/**
+ * Setting custom attributes to the button
+ */
+$deleteButton = new ActionButton('Delete', '?mod=contact&id={id}&action=delete', 'fa fa-trash');
+$deleteButton->addAttribute('onclick', "return confirm('Are you sure?');");
+$grid->addActionButton($deleteButton);
+
+/**
+ * Set custom style/classes to the cell itself
+ */
 $col1 = new Column('name', 'Full Name');
-$col1->setCellCssClass('text-center'); #set css class of the Table Td element
-$col1->setCellCssStyle('background-color:silver'); #set css style of the Table TD element
+$col1->setOuterElementCssClass('text-center');
+$col1->setOuterElementCssStyle('background-color:silver');
 $grid->addColumn($col1);
 
+/**
+ * Set custom style/classes to the content of the cell
+ */
 $col2 = new Column('created_on', 'Registration Date', true);
-$col2->setCellContentCssClass('border border-danger'); #set css style of the element inside table td
-$col2->setCellContentCssStyle('color:red'); #set css style of the element inside table td
+$col2->setInnerElementCssClass('border border-danger');
+$col2->setInnerElementCssStyle('color:red;cursor:pointer;');
 $grid->addColumn($col2);
-
-#catch and handle the ajax request 
-if ($grid->isReadyToHandleRequests()) {
-    $grid->bootstrap();
-}
 
 $grid->setDebug(true); #output additional debugging info in json responses
 
+if ($grid->isReadyToHandleRequests()) {
+    $grid->bootstrap();
+}
 
 echo $grid->draw();
 
