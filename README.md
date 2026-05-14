@@ -70,3 +70,7 @@ echo $grid->draw();
 ```
 
 See [examples](https://github.com/lavdiu/php-grid/tree/master/examples) directory for more examples
+
+
+
+sponsored by [https://routerarena.com](https://routerarena.com) and [https://ev-daily.com](https://ev-daily.com)
